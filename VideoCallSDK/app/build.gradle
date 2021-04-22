@@ -5,12 +5,13 @@ android {
     compileSdkVersion 29
     buildToolsVersion "30.0.1"
 
+
     defaultConfig {
         applicationId "com.vnptit.innovation.videocall"
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 5
-        versionName "2.0.7"
+        versionName "2.0.8"
         ndk {
             abiFilters 'armeabi-v7a', 'x86', 'x86_64', 'arm64-v8a'
         }
