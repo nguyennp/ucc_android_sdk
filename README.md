@@ -20,3 +20,6 @@ std::string client_id = "";
 
 std::string client_secret = "";   
 
+Update Version 2.0.8: 
+- Chỉnh sửa các quyền truy cập permisstion STORAGE
+- Thay đổi kết nối đường dẫn socket 
