@@ -102,7 +102,6 @@ class HomeActivity : AppCompatActivity(), CallHandlingObserver {
 
         contactRepository = ContactRepository(this.application)
         mainViewModel.allContacts?.observe(this, { list ->
-            Log.d("xxx", list.size.toString())
             mListContact = list
             if (list != null && list.isNotEmpty()) {
                 llNoContact.visibility = View.GONE
@@ -262,5 +261,13 @@ class HomeActivity : AppCompatActivity(), CallHandlingObserver {
 
     override fun onEndCall(p0: String?) {
         showToast(getString(R.string.end_call))
+    }
+
+    override fun onCreateCall(p0: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onTimeOut(p0: String?) {
+        TODO("Not yet implemented")
     }
 }

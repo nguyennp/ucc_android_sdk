@@ -30,8 +30,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.vnptit.video_call_sdk.cache.SharePref;
 import com.vnptit.video_call_sdk.call_handle_callback.CallHandlingObservable;
+import com.vnptit.video_call_sdk.config.SDKConfig;
 import com.vnptit.video_call_sdk.model.calling.PersionReceiver;
 import com.vnptit.video_call_sdk.model.error.ErrorResult;
 import com.vnptit.video_call_sdk.model.request.RegisterDeviceParam;
@@ -56,6 +58,7 @@ import java.util.List;
 import static com.vnptit.video_call_sdk.utils.Constants.Action.CALL_REGISTER_DEVICE;
 import static com.vnptit.video_call_sdk.utils.Constants.SharedKey.DEVICE_TOKEN;
 import static com.vnptit.video_call_sdk.utils.Constants.SharedKey.VIDEO_CALL_IS_CALLING;
+import static com.vnptit.video_call_sdk.utils.Constants.VIDEO_CALL_ADDITIONAL_DATA;
 import static com.vnptit.video_call_sdk.utils.Constants.VIDEO_CALL_PERSION_RECEVIER_DATA;
 import static com.vnptit.video_call_sdk.utils.Constants.VIDEO_CALL_PREVIOUS_ACTIVITY;
 
@@ -187,7 +190,12 @@ public class HomeActivity extends AppCompatActivity implements CallHandlingObser
                 persionReceiver.setDeviceIdReceiver(personIDs);
                 //Thêm previousActivity thực hiện việc nhận Error lỗi
                 bundle.putString(VIDEO_CALL_PREVIOUS_ACTIVITY, previousActivity);
+                //Thêm additionalData nếu cần
+                JsonObject additionalData = new JsonObject();
+                additionalData.addProperty("request_id", "test1");
+                additionalData.addProperty("user_id", "test2");
                 bundle.putSerializable(VIDEO_CALL_PERSION_RECEVIER_DATA, persionReceiver);
+                bundle.putSerializable(VIDEO_CALL_ADDITIONAL_DATA, additionalData.toString());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 intent.putExtras(bundle);
             }
@@ -205,7 +213,7 @@ public class HomeActivity extends AppCompatActivity implements CallHandlingObser
             if(errorResult != null){
                 showToast(errorResult.getErrorCode()+ " " + errorResult.getMessage());
             }
-        }catch (Exception e){
+        } catch (Exception e){
             return;
         }
     }
@@ -334,21 +342,34 @@ public class HomeActivity extends AppCompatActivity implements CallHandlingObser
     }
 
     @Override
+    public void onCreateCall(String s) {
+        showToast("RoomID: " + AppCode.roomIdCall);
+
+        //SDKUtils.exposedEndCall(this);
+    }
+
+    @Override
     public void onAcceptCall(String s) {
         Log.d("Home activity", s);
-        showToast("Callback: AcceptCall");
+        showToast("Callback AcceptCall: " + s);
     }
 
     @Override
     public void onRejectCall(String s) {
         Log.d("Home activity", s);
-        showToast( getResources().getString(R.string.ekyc_vc_receiver_busy_call));
+        showToast("Callback RejectCall: " + s);
     }
 
     @Override
     public void onEndCall(String s) {
         Log.d("Home activity", s);
-        showToast("Callback: EndCall");
+        showToast("Callback EndCall: " + s);
+    }
+
+    @Override
+    public void onTimeOut(String s) {
+        Log.d("Home activity", s);
+        showToast("Callback TimeOut: " + s);
     }
 
     private void showToast(String s) {

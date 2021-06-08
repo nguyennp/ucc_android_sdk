@@ -15,12 +15,14 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.vnptit.video_call_sdk.cache.SharePref;
 import com.vnptit.video_call_sdk.model.calling.KeyCustomer;
 import com.vnptit.video_call_sdk.network.delegate.SDKUtils;
 import com.vnptit.video_call_sdk.utils.AppCode;
 import com.vnptit.video_call_sdk.utils.FunctionUtils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.vnptit.video_call_sdk.utils.Constants.Action.CALL_REGISTER_DEVICE;
@@ -70,7 +72,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void handleDataMessage(RemoteMessage remoteMessage) {
+    private void handleDataMessage(RemoteMessage remoteMessage) throws JSONException {
         // convert payload sang jsonobject rồi sang string
         String messageData = (new JSONObject(remoteMessage.getData())).toString();
         /**
@@ -78,10 +80,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
          * các dạng type (PENDING là đang calling)
          */
         String dataType = remoteMessage.getData().get("title");
+        JSONObject additionalData =  new JSONObject(remoteMessage.getData().get("additionalData"));
+//        String request_id = additionalData.get("request_id").toString();
+//        String userid = additionalData.get("user_id").toString();
+
         if(!FunctionUtils.isNullOrEmpty(messageData) && !FunctionUtils.isNullOrEmpty(dataType)) {
             if(dataType.equals(PENDING)) {
                 // lấy calling trong cache
-                boolean isCalling = SharePref.getInstance().get(VIDEO_CALL_IS_CALLING, Boolean.class);
+//                boolean isCalling = SharePref.getInstance().get(VIDEO_CALL_IS_CALLING, Boolean.class);
 //                if(isCalling) { // đang call rồi thì return luôn
 //                    return;
 //                }
