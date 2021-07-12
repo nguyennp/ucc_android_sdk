@@ -1,3 +1,6 @@
+Big Update 3.0.0:
+ - Cập nhật hệ thống cho phép sử dụng nhiều kênh ứng dụng trên một token_id
+
 Update Version 2.0.10:
  - Cập nhật sử dụng queue thay cho topic để đảm bảo việc nhận socket ổn định
  - Fix bugs

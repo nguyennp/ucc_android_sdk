@@ -5,8 +5,10 @@ import android.provider.Settings;
 
 import androidx.multidex.MultiDexApplication;
 
+import com.vnptit.video_call_sdk.BuildConfig;
 import com.vnptit.video_call_sdk.config.SDKConfig;
 import com.vnptit.video_call_sdk.utils.AppCode;
+import com.vnptit.video_call_sdk.utils.Constants;
 
 public class MyApplication extends MultiDexApplication {
     private static String TAG = "MyApplication";
@@ -31,7 +33,6 @@ public class MyApplication extends MultiDexApplication {
         AppCode.DEVICE_ID = "Android" + Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         AppCode.PERSON_ID = "CustomerID" + Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID); //Customer ID của app tích hợp
         AppCode.PERSON_NAME = "Sample Name"; //Customer name của app tích hợp
-        AppCode.TOPIC_USING = AppCode.TOKEN_ID_SDK + "_" + AppCode.PERSON_ID + "_" + AppCode.DEVICE_ID;
-
+        AppCode.TOPIC_USING = AppCode.TOKEN_ID_SDK + "_" + AppCode.TOKEN_ID_APP + "_" + AppCode.PERSON_ID + "_" + AppCode.DEVICE_ID;
     }
 }

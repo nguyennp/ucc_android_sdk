@@ -184,9 +184,7 @@ public class HomeActivity extends AppCompatActivity implements CallHandlingObser
                 PersionReceiver persionReceiver = new PersionReceiver();
                 persionReceiver.setReceiverName(entity.getName());
                 persionReceiver.setPhone(entity.getPhone());
-                List<String> personIDs = new ArrayList<>();
-                personIDs.add(entity.getPersonID());
-                persionReceiver.setDeviceIdReceiver(personIDs);
+                persionReceiver.setCallerIdDest(entity.getPersonID());
                 bundle.putSerializable(VIDEO_CALL_PERSION_RECEVIER_DATA, persionReceiver);
 
                 //Thêm additionalData nếu cần
@@ -299,15 +297,17 @@ public class HomeActivity extends AppCompatActivity implements CallHandlingObser
         };
 
         RegisterDeviceParam registerDeviceParam = new RegisterDeviceParam();
+        registerDeviceParam.setDeviceToken(deviceToken);
         registerDeviceParam.setIdgTokenId(AppCode.TOKEN_ID_SDK);
         registerDeviceParam.setAccess_token(AppCode.ACCESS_TOKEN_SDK);
         registerDeviceParam.setToken_key(AppCode.TOKEN_KEY_SDK);
         registerDeviceParam.setToken_id(AppCode.TOKEN_ID_SDK);
-        registerDeviceParam.setTopicUsing(AppCode.TOPIC_USING);
+        registerDeviceParam.setTokenIdApp(AppCode.TOKEN_ID_APP);
         registerDeviceParam.setPersonIdApp(AppCode.PERSON_ID);
         registerDeviceParam.setPersonName(AppCode.PERSON_NAME);
         registerDeviceParam.setDeviceId(AppCode.DEVICE_ID);
-        registerDeviceParam.setDeviceToken(deviceToken);
+        registerDeviceParam.setTopicUsing(AppCode.TOPIC_USING);
+        registerDeviceParam.setConfigBank(AppCode.CONFIG_BANK);
 
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         String data = gson.toJson(registerDeviceParam);
