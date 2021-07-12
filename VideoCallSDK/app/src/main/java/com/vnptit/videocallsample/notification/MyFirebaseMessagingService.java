@@ -16,6 +16,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.vnptit.video_call_sdk.cache.SharePref;
 import com.vnptit.video_call_sdk.model.calling.KeyCustomer;
 import com.vnptit.video_call_sdk.network.delegate.SDKUtils;
@@ -80,17 +81,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
          * các dạng type (PENDING là đang calling)
          */
         String dataType = remoteMessage.getData().get("title");
-        JSONObject additionalData =  new JSONObject(remoteMessage.getData().get("additionalData"));
-//        String request_id = additionalData.get("request_id").toString();
-//        String userid = additionalData.get("user_id").toString();
+
+        ////Lấy additionalData ra để xử lý nếu cần
+        /*String additionalDataStr = remoteMessage.getData().get("additionalData");
+        if (additionalDataStr.contains("\\")) {
+            JsonParser parser = new JsonParser();
+            additionalDataStr = parser.parse(additionalDataStr).getAsString();
+        }
+        JSONObject additionalData = (new JSONObject(additionalDataStr));*/
 
         if(!FunctionUtils.isNullOrEmpty(messageData) && !FunctionUtils.isNullOrEmpty(dataType)) {
             if(dataType.equals(PENDING)) {
-                // lấy calling trong cache
-//                boolean isCalling = SharePref.getInstance().get(VIDEO_CALL_IS_CALLING, Boolean.class);
-//                if(isCalling) { // đang call rồi thì return luôn
-//                    return;
-//                }
                 //schedule job to start call activity
                 scheduleJob(messageData);
             } else {

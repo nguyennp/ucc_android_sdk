@@ -5,12 +5,18 @@ android {
     compileSdkVersion 29
     buildToolsVersion "30.0.1"
 
+    signingConfigs {
+        config {
+            
+        }
+    }
+
     defaultConfig {
-        applicationId "com.vnptit.innovation.videocall"
+        applicationId "com.vnptit.videocall"
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 5
-        versionName "2.0.9"
+        versionName "2.0.10"
         ndk {
             abiFilters 'armeabi-v7a', 'x86', 'x86_64', 'arm64-v8a'
         }
@@ -35,12 +41,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    externalNativeBuild {
-        cmake {
-            path file('CMakeLists.txt')
-        }
     }
 }
 

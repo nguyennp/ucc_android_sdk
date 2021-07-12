@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -31,9 +30,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.vnptit.video_call_sdk.BuildConfig;
 import com.vnptit.video_call_sdk.cache.SharePref;
 import com.vnptit.video_call_sdk.call_handle_callback.CallHandlingObservable;
-import com.vnptit.video_call_sdk.config.SDKConfig;
 import com.vnptit.video_call_sdk.model.calling.PersionReceiver;
 import com.vnptit.video_call_sdk.model.error.ErrorResult;
 import com.vnptit.video_call_sdk.model.request.RegisterDeviceParam;
@@ -107,7 +106,7 @@ public class HomeActivity extends AppCompatActivity implements CallHandlingObser
             Toast.makeText(this, R.string.ekyc_vc_no_connection, Toast.LENGTH_SHORT).show();
             return;
         }
-        AppCode.previousActivity = previousActivity;
+
         //Đăng ký lắng nghe callback khi xử lý cuộc gọi
         CallHandlingObservable.getInstance().registerObserver(this);
 
@@ -188,14 +187,15 @@ public class HomeActivity extends AppCompatActivity implements CallHandlingObser
                 List<String> personIDs = new ArrayList<>();
                 personIDs.add(entity.getPersonID());
                 persionReceiver.setDeviceIdReceiver(personIDs);
-                //Thêm previousActivity thực hiện việc nhận Error lỗi
-                bundle.putString(VIDEO_CALL_PREVIOUS_ACTIVITY, previousActivity);
+                bundle.putSerializable(VIDEO_CALL_PERSION_RECEVIER_DATA, persionReceiver);
+
                 //Thêm additionalData nếu cần
-                JsonObject additionalData = new JsonObject();
+                /*JsonObject additionalData = new JsonObject();
                 additionalData.addProperty("request_id", "test1");
                 additionalData.addProperty("user_id", "test2");
-                bundle.putSerializable(VIDEO_CALL_PERSION_RECEVIER_DATA, persionReceiver);
-                bundle.putSerializable(VIDEO_CALL_ADDITIONAL_DATA, additionalData.toString());
+                bundle.putSerializable(VIDEO_CALL_ADDITIONAL_DATA, additionalData.toString());*/
+
+                bundle.putString(VIDEO_CALL_PREVIOUS_ACTIVITY, previousActivity);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 intent.putExtras(bundle);
             }
@@ -299,15 +299,15 @@ public class HomeActivity extends AppCompatActivity implements CallHandlingObser
         };
 
         RegisterDeviceParam registerDeviceParam = new RegisterDeviceParam();
-        registerDeviceParam.setDeviceId(AppCode.DEVICE_ID);
-        registerDeviceParam.setDeviceToken(deviceToken);
         registerDeviceParam.setIdgTokenId(AppCode.TOKEN_ID_SDK);
         registerDeviceParam.setAccess_token(AppCode.ACCESS_TOKEN_SDK);
         registerDeviceParam.setToken_key(AppCode.TOKEN_KEY_SDK);
         registerDeviceParam.setToken_id(AppCode.TOKEN_ID_SDK);
         registerDeviceParam.setTopicUsing(AppCode.TOPIC_USING);
-        registerDeviceParam.setPersonIdApp(AppCode.PERSON_ID); //Fake customer id
+        registerDeviceParam.setPersonIdApp(AppCode.PERSON_ID);
         registerDeviceParam.setPersonName(AppCode.PERSON_NAME);
+        registerDeviceParam.setDeviceId(AppCode.DEVICE_ID);
+        registerDeviceParam.setDeviceToken(deviceToken);
 
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         String data = gson.toJson(registerDeviceParam);
@@ -335,6 +335,7 @@ public class HomeActivity extends AppCompatActivity implements CallHandlingObser
         RemoveDeviceParam removeDeviceParam = new RemoveDeviceParam();
         removeDeviceParam.setDeviceId(AppCode.DEVICE_ID);
         removeDeviceParam.setIdgTokenId(AppCode.TOKEN_ID_SDK);
+        removeDeviceParam.setTokenIdApp(AppCode.TOKEN_ID_APP);
         removeDeviceParam.setPersonIdApp(AppCode.PERSON_ID); //Fake customer id
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         String data = gson.toJson(removeDeviceParam);

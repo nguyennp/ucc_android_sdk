@@ -3,7 +3,6 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">explorer.idg.vnpt.vn</domain>
         <domain includeSubdomains="true">api.idg.vnpt.vn</domain>
-
     </domain-config>
     <debug-overrides>
         <trust-anchors>
