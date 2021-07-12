@@ -1,4 +1,3 @@
 include ':video_call_sdk-release'
-include ':video_call_sdk'
 include ':app'
 rootProject.name = "VideoCallSDK"
